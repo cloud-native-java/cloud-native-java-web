@@ -1,0 +1,77 @@
+# Concourse pipeline definition for the cloud native java website.
+---
+resources:
+- name: cloud-native-java-web
+  type: git
+  source:
+    uri: {{git-source-repository-url}}
+    branch: master
+- name: version
+  type: semver
+  source:
+    driver: git
+    initial_version: 1.0.0-RC.0
+    uri: {{git-version-repository-url}}
+    branch: version
+    file: cloud-native-java-web
+    private_key: {{git-version-private-key}}
+- name: snapshot
+  type: maven-resource
+  source:
+    url: {{artifactory-url}}
+    artifact: cnj:cd-account-microservice:jar
+    username: {{artifactory-username}}
+    password: {{artifactory-password}}
+- name: cf-deploy-release
+  type: cf
+  source:
+    api: {{cf-url}}
+    username: {{cf-username}}
+    password: {{cf-password}}
+    organization: {{cf-org}}
+    space: {{cf-space}}
+    skip_cert_check: false
+    current_app_name: cloud-native-java-web
+- name: pipeline-tasks
+  type: git
+  source:
+    uri: https://github.com/Pivotal-Field-Engineering/pipeline-tasks
+    branch: master
+jobs:
+- name: build
+  max_in_flight: 1
+  plan:
+  - get: cloud-native-java-web
+    trigger: true
+  - task: unit
+    file: cloud-native-java-web/concourse/unit/unit.yml
+  - get: version
+    params: { pre: RC }
+  - put: snapshot
+    params:
+      file: release/cloud-native-java-web.jar
+      pom_file: cloud-native-java-web/pom.xml
+      version_file: version/version
+  - put: version
+    params: { file: version/version }
+- name: release
+  serial: true
+  plan:
+  - get: snapshot
+    trigger: true
+    passed: [build]
+  - get: cloud-native-java-web
+    passed: [build]
+  - get: version
+    passed: [build]
+  - get: pipeline-tasks
+  - task: prepare-manifest
+    file: cloud-native-java-web/concourse/release/prepare.yml
+    params:
+      MF_PATH: ../release-output/cloud-native-java-web.jar
+      MF_BUILDPACK: java_buildpack
+  - task: prepare-release
+    file: cloud-native-java-web/concourse/release/release.yml
+  - put: cf-deploy-release
+    params:
+      manifest: task-output/manifest.yml

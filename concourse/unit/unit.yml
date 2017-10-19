@@ -1,0 +1,21 @@
+# This task will build and run the unit tests specified in the source code
+# of the microservice.
+---
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: maven
+    tag: alpine
+inputs:
+- name: cloud-native-java-web
+outputs:
+- name: release
+run:
+  path: sh
+  args:
+  - -exc
+  - |
+    cd source \
+    && mvn clean package \
+    && mv target/cloud-native-java-web-*.jar ../release/cloud-native-java-web.jar \

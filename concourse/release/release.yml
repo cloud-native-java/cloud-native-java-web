@@ -1,0 +1,19 @@
+# This task will prepare the versioned release artifact before deploying
+# to Cloud Foundry.
+---
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: concourse/cf-resource
+    tag: latest
+inputs:
+  - name: snapshot
+outputs:
+  - name: release-output
+run:
+  path: sh
+  args:
+  - -exc
+  - |
+    mv snapshot/cloud-native-java-web-**.jar release-output/cloud-native-java-web.jar

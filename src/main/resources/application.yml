@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: cloud-native-java-web
+rss:
+  uri: "http://cloudnativejava.io/index.xml"
+management:
+  security:
+    enabled: false
