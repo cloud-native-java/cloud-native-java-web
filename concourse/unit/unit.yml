@@ -16,6 +16,6 @@ run:
   args:
   - -exc
   - |
-    cd source \
+    cd cloud-native-java-web \
     && mvn clean package \
     && mv target/cloud-native-java-web-*.jar ../release/cloud-native-java-web.jar \
