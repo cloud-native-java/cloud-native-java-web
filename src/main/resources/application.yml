@@ -2,7 +2,7 @@ spring:
   application:
     name: cloud-native-java-web
 rss:
-  uri: "http://cloudnativejava.io/index.xml"
+  uri: "http://cloud-native-java.github.io/index.xml"
 management:
   security:
     enabled: false
