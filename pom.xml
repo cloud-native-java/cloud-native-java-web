@@ -5,7 +5,7 @@
 
     <groupId>com.example</groupId>
     <artifactId>cloud-native-java-web</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-RC</version>
     <packaging>jar</packaging>
 
     <name>cloud-native-java-web</name>
@@ -68,6 +68,13 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
