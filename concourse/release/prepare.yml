@@ -10,7 +10,6 @@ image_resource:
 params:
   MF_NAME: cloud-native-java-web
   MF_BUILDPACK: java_buildpack
-  MF_HOST: cloud-native-java-web
   MF_INSTANCES: 1
   MF_MEMORY: 1024M
   MF_ROUTES: [ { route: www.cloudnativejava.io }, { route: cloud-native-java-web.cfapps.io }]
