@@ -37,7 +37,6 @@ resources:
     organization: {{cf-org}}
     space: {{cf-space}}
     skip_cert_check: false
-    current_app_name: cloud-native-java-web
 - name: pipeline-tasks
   type: git
   source:
@@ -81,3 +80,4 @@ jobs:
   - put: cf-deploy-release
     params:
       manifest: task-output/manifest.yml
+      current_app_name: cloud-native-java-web

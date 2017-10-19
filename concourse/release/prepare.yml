@@ -9,11 +9,11 @@ image_resource:
 
 params:
   MF_NAME: cloud-native-java-web
-  MF_DOMAINS: [cfapps.io, cloudnativejava.io]
   MF_BUILDPACK: java_buildpack
   MF_HOST: cloud-native-java-web
   MF_INSTANCES: 1
   MF_MEMORY: 1024M
+  MF_ROUTES: [www.cloudnativejava.io,cloud-native-java-web.cfapps.io]
   MF_PATH:
 
 inputs:
