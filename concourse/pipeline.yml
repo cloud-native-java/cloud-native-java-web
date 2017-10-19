@@ -1,5 +1,11 @@
 # Concourse pipeline definition for the cloud native java website.
 ---
+resource_types:
+- name: maven-resource
+  type: docker-image
+  source:
+    repository: patrickcrocker/maven-resource
+    tag: latest
 resources:
 - name: cloud-native-java-web
   type: git
@@ -19,7 +25,7 @@ resources:
   type: maven-resource
   source:
     url: {{artifactory-url}}
-    artifact: cnj:cd-account-microservice:jar
+    artifact: cnj:cloud-native-java-web:jar
     username: {{artifactory-username}}
     password: {{artifactory-password}}
 - name: cf-deploy-release
